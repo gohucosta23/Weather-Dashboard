@@ -1,0 +1,22 @@
+
+.row {
+    margin-bottom: 10px;
+}
+.col-4 {
+    border-right: 1px solid black;
+}
+#weather {
+    padding: 50px;
+    margin-bottom: 50px;
+    background-color: darkgray;
+    
+}
+#uvindex{
+    font-weight: bolder;
+    color: black;
+}
+#futureDisplay7, #futureDisplay15, #futureDisplay23, #futureDisplay31, #futureDisplay39{
+    display: inline;
+    border: solid black 1px;    
+    padding: 50px;
+} 
