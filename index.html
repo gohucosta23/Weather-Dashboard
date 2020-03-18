@@ -14,17 +14,16 @@
 </head>
 
 <body>
-    <div class="container"></div>
+    <div class="container-fluid">
     <div class="jumbotron">
         <h1>Weather Dashboard</h1>
     </div>
-    <div class="container">
+    
         <div class="row">
         <div class="col-3">
-            <h5>Search for a city:</h5>
             <form>
                 <div class="input-group">
-                    <input type="text" class="form-control" id="citySearch">
+                    <input type="text" class="form-control" id="citySearch" placeholder="Enter a city...">
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit" id="searchBtn">
                             <i class="glyphicon glyphicon-search"></i>
@@ -36,7 +35,7 @@
         </div>
        
         <div class="col-9">
-            <div class="row">
+            <div class="row" id="oneDayDisplay">
                 <div id="weatherDisplay">               
             </div>
             <hr>
@@ -48,14 +47,12 @@
                 </div>
             </div>
         </div>
-    </div>
+    
 
 
     </div>
-
-
-
     </div>
+</div>
 
 
 
