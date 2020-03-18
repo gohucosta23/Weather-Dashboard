@@ -12,11 +12,11 @@
 $(document).ready(function () {
 
 
-    var city = $("#citySearch").val().trim();
+    
     var date = moment().format("L");
     var apiKey = "506386d3ffc6a9ccad173225d3669b28";
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
-    var cities = [];
+    
 
 
 
@@ -56,12 +56,18 @@ $(document).ready(function () {
     }
 
     $("#searchBtn").on("click", function (event) {
+
         event.preventDefault();
+        
         var cities = [];
         var city = $("#citySearch").val().trim();
         cities.push(city);
         queryURL = queryURL + "&q=" + city;
-
+        console.log(city);
+        console.log(cities);
+        localStorage.setItem("cities",JSON.stringify(cities));
+        var storedCities = JSON.parse(localStorage.getItem(cities));
+        
         getWeather();
         fiveDay(city);
        
