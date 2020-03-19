@@ -8,21 +8,27 @@
 // get search button from HTML
 // Dynamically create cards to display weather
 
+window.onload = function(){
 
-$(document).ready(function () {
 
-
-    
+    const MAX_HISTORY = 5;
     var date = moment().format("L");
     var apiKey = "506386d3ffc6a9ccad173225d3669b28";
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
-    
+    var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
+    if (cities &&  cities.length > 0) {
+        while (cities.length > MAX_HISTORY) {
+            cities.shift();
+        }
 
+        search(cities[cities.length - 1]);
+    }
 
 
     function getWeather() {
 
+       
         $.ajax({
 
             url: queryURL,
@@ -30,8 +36,9 @@ $(document).ready(function () {
 
         })
             .then(function (response) {
-
-                $("#weatherDisplay").empty();
+                console.log(response);
+                $("#weatherDisplay").empty(); 
+        
 
                 var iconcode = response.weather[0].icon;
                 var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
@@ -45,7 +52,7 @@ $(document).ready(function () {
                 $("#weatherDisplay").append(weatherDisplay);
                 $("#weather").append(
                     "<h2>" + response.name + "  (" + date + ") <img src =" + iconurl + "></h2>",
-                    "<h3><strong>Temperature : " + ((response.main.temp - 273.15) * 1.8 + 32).toFixed(2) + "&#176;F</strong></h3>",
+                    "<h3><strong>Temperature : " + ((response.main.temp - 273.15) * 1.8 + 32).toFixed(0) + "&#176;F</strong></h3>",
                     "<h4><strong>Wind Speed : " + response.wind.speed + " mph</strong></h4>",
                     "<h4><strong>Humidity : " + response.main.humidity + "%</strong></h4>",
                     "<h4 id='uvindex'></h4>"
@@ -55,23 +62,49 @@ $(document).ready(function () {
             })
     }
 
-    $("#searchBtn").on("click", function (event) {
-
-        event.preventDefault();
+    function search(city) {
         
-        var cities = [];
-        var city = $("#citySearch").val().trim();
-        cities.push(city);
-        queryURL = queryURL + "&q=" + city;
-        console.log(city);
-        console.log(cities);
-        localStorage.setItem("cities",JSON.stringify(cities));
-        var storedCities = JSON.parse(localStorage.getItem(cities));
-        
+        queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey + "&q=" + city;  
+        console.log(queryURL)    
+               
         getWeather();
-        fiveDay(city);
-       
+        fiveDay(city);    
+        renderCities();
+    }
+
+    $("#searchBtn").on("click", function (event) {
+        event.preventDefault();
+        var city = $("#citySearch").val().trim();
+        
+        if(city != null){
+            
+            cities.push(city);
+            while (cities.length > MAX_HISTORY) {
+                cities.shift();
+            }
+    
+            localStorage.setItem("cities",JSON.stringify(cities));
+        }
+
+        search(city);
     })
+
+    function renderCities() {
+
+        $("#searchResults").empty();
+       
+
+        for (var i=0; i < cities.length; i++){            
+            
+            var savedCities = $("<div>");
+            savedCities.attr("class", "savedCities");
+            savedCities.attr("id", "savedCities" +i);
+            $("#searchResults").prepend(savedCities);
+            savedCities.text(cities[i]);
+            
+        }
+
+    }
     function uvIndex(uvLon, uvLat) {
         var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=15e701943db0eab65638c75f992c9b15&lat=" + uvLat + "&lon=" + uvLon;
 
@@ -139,7 +172,7 @@ $(document).ready(function () {
                     $("#futureDisplay" + i).append(
                         "<h4>" + formatedDate + "</h4>",
                         "<h2><img src =" + iconurl + "></h2>",
-                        "<h4>Temp: " + ((temp - 273.15) * 1.8 + 32).toFixed(2) + "&#176;F</h4>",
+                        "<h4>Temp: " + ((temp - 273.15) * 1.8 + 32).toFixed(0) + "&#176;F</h4>",
                         "<h4>Humidity: " + humidity + "%</h4>"
                         
                     )
@@ -149,11 +182,10 @@ $(document).ready(function () {
             })
 
     }
-
-   
+    
+}
 
 
     
 
 
-});
