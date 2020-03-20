@@ -11,14 +11,14 @@
 window.onload = function(){
 
 
-    const MAX_HISTORY = 5;
+    const searchHistory = 5;
     var date = moment().format("L");
     var apiKey = "506386d3ffc6a9ccad173225d3669b28";
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
     var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
     if (cities &&  cities.length > 0) {
-        while (cities.length > MAX_HISTORY) {
+        while (cities.length > searchHistory) {
             cities.shift();
         }
 
@@ -36,7 +36,7 @@ window.onload = function(){
 
         })
             .then(function (response) {
-                console.log(response);
+                
                 $("#weatherDisplay").empty(); 
         
 
@@ -65,11 +65,12 @@ window.onload = function(){
     function search(city) {
         
         queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey + "&q=" + city;  
-        console.log(queryURL)    
+        
                
         getWeather();
         fiveDay(city);    
         renderCities();
+        city = "";
     }
 
     $("#searchBtn").on("click", function (event) {
@@ -79,7 +80,7 @@ window.onload = function(){
         if(city != null){
             
             cities.push(city);
-            while (cities.length > MAX_HISTORY) {
+            while (cities.length > searchHistory) {
                 cities.shift();
             }
     
@@ -96,15 +97,22 @@ window.onload = function(){
 
         for (var i=0; i < cities.length; i++){            
             
-            var savedCities = $("<div>");
+            var savedCities = $("<button>");
             savedCities.attr("class", "savedCities");
-            savedCities.attr("id", "savedCities" +i);
+            savedCities.attr("data-name", cities[i]);
             $("#searchResults").prepend(savedCities);
             savedCities.text(cities[i]);
             
         }
-
+              
     }
+    $(document).on("click", ".savedCities", function(){
+        console.log("clicked");
+        city = $(this).attr("data-name");
+        search(city);
+    })
+    
+
     function uvIndex(uvLon, uvLat) {
         var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=15e701943db0eab65638c75f992c9b15&lat=" + uvLat + "&lon=" + uvLon;
 
