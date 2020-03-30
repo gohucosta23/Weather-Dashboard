@@ -173,7 +173,7 @@ window.onload = function(){
 
     function fiveDay(city) {
 
-        var fiveDayQuery = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
+        var fiveDayQuery = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;
 
         $.ajax({
 
@@ -191,7 +191,7 @@ window.onload = function(){
                     var newIconcode = iconcode.slice(0, -1);
                     newIconcode = newIconcode + "d";
                     console.log(newIconcode)
-                    var iconurl = "http://openweathermap.org/img/w/" + newIconcode + ".png";
+                    var iconurl = "https://openweathermap.org/img/w/" + newIconcode + ".png";
 
                     
                     var fiveDayDisplay = $("<div>");
