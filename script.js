@@ -86,7 +86,7 @@ window.onload = function(){
 
     $("#searchBtn").on("click", function (event) {
         event.preventDefault();
-        var city = $("#citySearch").val().toLowerCase().trim();
+        var city = $("#citySearch").val().toUpperCase().trim();
         console.log(city)
         for (var i = 0; i < cities.length; i++){
             if (cities[i] === city){
