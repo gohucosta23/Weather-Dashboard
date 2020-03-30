@@ -15,7 +15,7 @@ window.onload = function(){
     const searchHistory = 5;
     var date = moment().format("L");
     var apiKey = "506386d3ffc6a9ccad173225d3669b28";
-    var queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
     var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
     // Checking to see if there is anything in local storage, if the number of cities is greater than
@@ -73,7 +73,7 @@ window.onload = function(){
 
     function search(city) {
         
-        queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey + "&q=" + city;  
+        queryURL = "https://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey + "&q=" + city;  
         
                
         getWeather();
@@ -137,7 +137,7 @@ window.onload = function(){
     //Function to get the uv index
 
     function uvIndex(uvLon, uvLat) {
-        var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=15e701943db0eab65638c75f992c9b15&lat=" + uvLat + "&lon=" + uvLon;
+        var queryUVURL = "https://api.openweathermap.org/data/2.5/uvi?appid=15e701943db0eab65638c75f992c9b15&lat=" + uvLat + "&lon=" + uvLon;
 
         $.ajax({
 
