@@ -46,7 +46,7 @@ window.onload = function(){
         
 
                 var iconcode = response.weather[0].icon;
-                var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
                 var uvLat = response.coord.lat;
                 var uvLon = response.coord.lon;
                 uvIndex(uvLon, uvLat);
