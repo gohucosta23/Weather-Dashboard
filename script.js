@@ -10,12 +10,16 @@
 
 window.onload = function(){
 
+    // Global variables 
 
     const searchHistory = 5;
     var date = moment().format("L");
     var apiKey = "506386d3ffc6a9ccad173225d3669b28";
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey;
     var cities = JSON.parse(localStorage.getItem("cities")) || [];
+
+    // Checking to see if there is anything in local storage, if the number of cities is greater than
+    // searchHistory remove the first item of the array and load the last searched city
 
     if (cities &&  cities.length > 0) {
         while (cities.length > searchHistory) {
@@ -25,6 +29,7 @@ window.onload = function(){
         search(cities[cities.length - 1]);
     }
 
+    // Function that makes the ajax call
 
     function getWeather() {
 
@@ -46,6 +51,8 @@ window.onload = function(){
                 var uvLon = response.coord.lon;
                 uvIndex(uvLon, uvLat);
 
+                // creating a div to append the daily weather
+
                 var weatherDisplay = $("<div>");
                 weatherDisplay.attr("id", "weather");
 
@@ -62,6 +69,8 @@ window.onload = function(){
             })
     }
 
+    
+
     function search(city) {
         
         queryURL = "http://api.openweathermap.org/data/2.5/weather?&appid=" + apiKey + "&q=" + city;  
@@ -73,9 +82,17 @@ window.onload = function(){
         city = "";
     }
 
+    // This is where the iuser will enter the city and search, also where w are saving the city names at each click.
+
     $("#searchBtn").on("click", function (event) {
         event.preventDefault();
-        var city = $("#citySearch").val().trim();
+        var city = $("#citySearch").val().toLowerCase().trim();
+        console.log(city)
+        for (var i = 0; i < cities.length; i++){
+            if (cities[i] === city){
+                cities.splice(i , 1);
+            }
+        }
         
         if(city != null){
             
@@ -86,9 +103,10 @@ window.onload = function(){
     
             localStorage.setItem("cities",JSON.stringify(cities));
         }
-
+        
         search(city);
     })
+    //This function renders the city names (buttons) 
 
     function renderCities() {
 
@@ -96,22 +114,27 @@ window.onload = function(){
        
 
         for (var i=0; i < cities.length; i++){            
-            
+                        
             var savedCities = $("<button>");
             savedCities.attr("class", "savedCities");
             savedCities.attr("data-name", cities[i]);
             $("#searchResults").prepend(savedCities);
             savedCities.text(cities[i]);
+           
             
         }
               
     }
+
+    //This is the click event on the saved cities allowing the user to click on a previously searched city.
+
     $(document).on("click", ".savedCities", function(){
         console.log("clicked");
         city = $(this).attr("data-name");
         search(city);
     })
     
+    //Function to get the uv index
 
     function uvIndex(uvLon, uvLat) {
         var queryUVURL = "http://api.openweathermap.org/data/2.5/uvi?appid=15e701943db0eab65638c75f992c9b15&lat=" + uvLat + "&lon=" + uvLon;
@@ -145,6 +168,9 @@ window.onload = function(){
 
             })
     }
+
+    // Function for the five day weather
+
     function fiveDay(city) {
 
         var fiveDayQuery = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + apiKey;

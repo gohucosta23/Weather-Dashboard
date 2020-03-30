@@ -4,7 +4,7 @@
 ## Introduction
 <br>
 This was a cool project to work on... It was hard, but as things started to fall into place I got very excited and motivated. This weather Dashboard will allow users to search for cities worlwide giving them the current weather information like ...
-<br>
+<br>itit 
 <ul>
 <li>Temperature</li>
 <li>Icon displaying what the weather looks like</li>
