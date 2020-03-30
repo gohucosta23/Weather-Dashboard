@@ -183,12 +183,15 @@ window.onload = function(){
             .then(function (response) {
 
                 $("#futureDisplay").empty();
-                
+                console.log(response)
 
                 for (var i = 7; i < response.list.length; i += 8) {
 
                     var iconcode = response.list[i].weather[0].icon;
-                    var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                    var newIconcode = iconcode.slice(0, -1);
+                    newIconcode = newIconcode + "d";
+                    console.log(newIconcode)
+                    var iconurl = "http://openweathermap.org/img/w/" + newIconcode + ".png";
 
                     
                     var fiveDayDisplay = $("<div>");
