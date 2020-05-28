@@ -46,3 +46,7 @@ Obs.: The UV Index is color coded to indicate whether the conditions are favorab
 <li>Jquery</li>
 <li>Open Weather map API</li>
 </ul>
+
+## Links
+
+<p>Check it out on the browser <a href = "https://gohucosta23.github.io/Weather-Dashboard/" target = "blank">here.</a></p>
